@@ -4,12 +4,12 @@ import React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DefaultValues, FieldValues, Path, SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
 import { ZodType } from 'zod';
-import { useRouter } from 'next/router';
-import { Form, FormControl, FormField, FormItem, FormLabel } from './ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
 import { Input } from './ui/input';
 import { FIELD_NAMES, FIELD_TYPES } from '@/constants';
 import { Button } from './ui/button';
 import Link from 'next/link';
+import FileUpload from './FileUpload';
 
 interface Props<T extends FieldValues> {
   schema: ZodType<T>;
@@ -19,7 +19,6 @@ interface Props<T extends FieldValues> {
 }
 
 const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit }: Props<T>) => {
-
   const isSignIn = type === 'SIGN_IN';
 
   const form: UseFormReturn<T> = useForm({
@@ -27,7 +26,10 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
     defaultValues: defaultValues as DefaultValues<T>,
   });
 
-  const handleSubmit: SubmitHandler<T> = async (data) => {};
+  const handleSubmit: SubmitHandler<T> = async (data) => {
+    onSubmit(data);
+    console.log(data);
+  };
 
   return (
     <div className='flex flex-col gap-4'>
@@ -50,13 +52,25 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
                 <FormItem>
                   <FormLabel className='capitalize'>{FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}</FormLabel>
                   <FormControl>
+                    {field.name === 'universityCard' ? (
+                      <FileUpload
+                        type='image'
+                        accept='image/*'
+                        placeholder='Upload your ID'
+                        folder='ids'
+                        variant='dark'
+                        onFileChange={field.onChange}
+                      />
+                    ) : (
                       <Input
                         required
                         type={FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]}
                         {...field}
                         className='form-input'
                       />
+                    )}
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -68,10 +82,10 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
         </form>
       </Form>
 
-      <p className='text-center text-base font-medium'>
+      <p className='text-base text-center font-medium'>
         {isSignIn ? 'New to BookWise? ' : 'Already have an account? '}
 
-        <Link href={isSignIn ? '/sign-up' : '/sign-in'} className='font-bold text-primary'>
+        <Link href={isSignIn ? '/sign-up' : '/sign-in'} className='text-primary font-bold'>
           {isSignIn ? 'Create an account' : 'Sign in'}
         </Link>
       </p>
