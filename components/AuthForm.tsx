@@ -9,6 +9,7 @@ import { Input } from './ui/input';
 import { FIELD_NAMES, FIELD_TYPES } from '@/constants';
 import { Button } from './ui/button';
 import Link from 'next/link';
+import ImageUpload from './ImageUpload';
 import FileUpload from './FileUpload';
 
 interface Props<T extends FieldValues> {
@@ -53,7 +54,7 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
                   <FormLabel className='capitalize'>{FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}</FormLabel>
                   <FormControl>
                     {field.name === 'universityCard' ? (
-                      <FileUpload
+                      <ImageUpload
                         type='image'
                         accept='image/*'
                         placeholder='Upload your ID'

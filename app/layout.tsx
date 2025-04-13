@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+// import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import localFont from 'next/font/local';
 import { ReactNode } from 'react';
+import { ToastViewport, ToastProvider } from '@/components/ui/toast';
 
 const ibmPlexSans = localFont({
   src: [
@@ -26,7 +27,12 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang='en'>
-      <body className={`${ibmPlexSans.className} ${bebasNeue.variable} antialiased`}>{children}</body>
+      <body className={`${ibmPlexSans.className} ${bebasNeue.variable} antialiased`}>
+        <ToastProvider>
+          {children}
+          <ToastViewport />
+        </ToastProvider>
+      </body>
     </html>
   );
 };
