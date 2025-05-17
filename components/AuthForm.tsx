@@ -10,7 +10,7 @@ import { FIELD_NAMES, FIELD_TYPES } from '@/constants';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import ImageUpload from './ImageUpload';
-import FileUpload from './FileUpload';
+// import FileUpload from './FileUpload';
 
 interface Props<T extends FieldValues> {
   schema: ZodType<T>;
