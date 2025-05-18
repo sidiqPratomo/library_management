@@ -2,15 +2,30 @@
 
 import React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DefaultValues, FieldValues, Path, SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
+import {
+  DefaultValues,
+  FieldValues,
+  Path,
+  SubmitHandler,
+  useForm,
+  UseFormReturn,
+} from 'react-hook-form';
 import { ZodType } from 'zod';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from './ui/form';
 import { Input } from './ui/input';
 import { FIELD_NAMES, FIELD_TYPES } from '@/constants';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import ImageUpload from './ImageUpload';
-// import FileUpload from './FileUpload';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 interface Props<T extends FieldValues> {
   schema: ZodType<T>;
@@ -19,7 +34,13 @@ interface Props<T extends FieldValues> {
   type: 'SIGN_IN' | 'SIGN_UP';
 }
 
-const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit }: Props<T>) => {
+const AuthForm = <T extends FieldValues>({
+  type,
+  schema,
+  defaultValues,
+  onSubmit,
+}: Props<T>) => {
+  const router = useRouter();
   const isSignIn = type === 'SIGN_IN';
 
   const form: UseFormReturn<T> = useForm({
@@ -28,8 +49,21 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
   });
 
   const handleSubmit: SubmitHandler<T> = async (data) => {
-    onSubmit(data);
-    console.log(data);
+    const result = await onSubmit(data);
+
+    if (result.success) {
+      toast.success('Success', {
+        description: isSignIn
+          ? 'You have successfully signed in'
+          : 'You have Successfully sign up',
+      });
+
+      router.push('/');
+    } else {
+      toast.error(`Error ${isSignIn ? 'signing in' : 'signing up'}`, {
+        description: result.error ?? 'An error occured',
+      });
+    }
   };
 
   return (
@@ -43,7 +77,10 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
           : 'Please complete all fields and upload a valid university ID to gain access to the library'}
       </p>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className='w-full space-y-6'>
+        <form
+          onSubmit={form.handleSubmit(handleSubmit)}
+          className='w-full space-y-6'
+        >
           {Object.keys(defaultValues).map((field) => (
             <FormField
               key={field}
@@ -51,7 +88,9 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
               name={field as Path<T>}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='capitalize'>{FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}</FormLabel>
+                  <FormLabel className='capitalize'>
+                    {FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}
+                  </FormLabel>
                   <FormControl>
                     {field.name === 'universityCard' ? (
                       <ImageUpload
@@ -65,7 +104,9 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
                     ) : (
                       <Input
                         required
-                        type={FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]}
+                        type={
+                          FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]
+                        }
                         {...field}
                         className='form-input'
                       />
@@ -86,7 +127,10 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
       <p className='text-base text-center font-medium'>
         {isSignIn ? 'New to BookWise? ' : 'Already have an account? '}
 
-        <Link href={isSignIn ? '/sign-up' : '/sign-in'} className='text-primary font-bold'>
+        <Link
+          href={isSignIn ? '/sign-up' : '/sign-in'}
+          className='text-primary font-bold'
+        >
           {isSignIn ? 'Create an account' : 'Sign in'}
         </Link>
       </p>

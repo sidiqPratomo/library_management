@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import localFont from 'next/font/local';
 import { ReactNode } from 'react';
+// import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner"
 import { ToastViewport, ToastProvider } from '@/components/ui/toast';
 
 const ibmPlexSans = localFont({
@@ -15,7 +17,9 @@ const ibmPlexSans = localFont({
 });
 
 const bebasNeue = localFont({
-  src: [{ path: '/fonts/BebasNeue-Regular.ttf', weight: '400', style: 'normal' }],
+  src: [
+    { path: '/fonts/BebasNeue-Regular.ttf', weight: '400', style: 'normal' },
+  ],
   variable: '--bebas-neue',
 });
 
@@ -27,11 +31,14 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang='en'>
-      <body className={`${ibmPlexSans.className} ${bebasNeue.variable} antialiased`}>
-        <ToastProvider>
-          {children}
-          <ToastViewport />
-        </ToastProvider>
+      <body
+        className={`${ibmPlexSans.className} ${bebasNeue.variable} antialiased`}
+      >
+        {/* <ToastProvider> */}
+        {children}
+        {/* <ToastViewport /> */}
+        <Toaster/>
+        {/* </ToastProvider> */}
       </body>
     </html>
   );

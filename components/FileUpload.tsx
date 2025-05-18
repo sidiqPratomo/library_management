@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
+'use client';
 
-import { ImageKitProvider, IKUpload } from "imagekitio-next";
-import config from "@/lib/config";
+import { ImageKitProvider, IKUpload } from 'imagekitio-next';
+import config from '@/lib/config';
 // import ImageKit from "imagekit";
-import { useRef, useState } from "react";
-import Image from "next/image";
-import { toast } from "@/hooks/use-toast";
-import { cn } from "@/lib/utils";
+import { useRef, useState } from 'react';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
 const {
   env: {
@@ -38,11 +38,11 @@ const authenticator = async () => {
 };
 
 interface Props {
-  type: "image" | "video";
+  type: 'image' | 'video';
   accept: string;
   placeholder: string;
   folder: string;
-  variant: "dark" | "light";
+  variant: 'dark' | 'light';
   onFileChange: (filePath: string) => void;
   value?: string;
 }
@@ -64,20 +64,18 @@ const FileUpload = ({
 
   const styles = {
     button:
-      variant === "dark"
-        ? "bg-dark-300"
-        : "bg-light-600 border-gray-100 border",
-    placeholder: variant === "dark" ? "text-light-100" : "text-slate-500",
-    text: variant === "dark" ? "text-light-100" : "text-dark-400",
+      variant === 'dark'
+        ? 'bg-dark-300'
+        : 'bg-light-600 border-gray-100 border',
+    placeholder: variant === 'dark' ? 'text-light-100' : 'text-slate-500',
+    text: variant === 'dark' ? 'text-light-100' : 'text-dark-400',
   };
 
   const onError = (error: any) => {
     console.log(error);
 
-    toast({
-      title: `${type} upload failed`,
+    toast.error(`${type} upload failed`, {
       description: `Your ${type} could not be uploaded. Please try again.`,
-      variant: "destructive",
     });
   };
 
@@ -85,29 +83,24 @@ const FileUpload = ({
     setFile(res);
     onFileChange(res.filePath);
 
-    toast({
-      title: `${type} uploaded successfully`,
+    toast.success(`${type} uploaded successfully`, {
       description: `${res.filePath} uploaded successfully!`,
     });
   };
 
   const onValidate = (file: File) => {
-    if (type === "image") {
+    if (type === 'image') {
       if (file.size > 20 * 1024 * 1024) {
-        toast({
-          title: "File size too large",
-          description: "Please upload a file that is less than 20MB in size",
-          variant: "destructive",
+        toast.warning('File size too large', {
+          description: 'Please upload a file that is less than 20MB in size',
         });
 
         return false;
       }
-    } else if (type === "video") {
+    } else if (type === 'video') {
       if (file.size > 50 * 1024 * 1024) {
-        toast({
-          title: "File size too large",
-          description: "Please upload a file that is less than 50MB in size",
-          variant: "destructive",
+        toast('File size too large', {
+          description: 'Please upload a file that is less than 50MB in size',
         });
         return false;
       }
@@ -136,11 +129,11 @@ const FileUpload = ({
         }}
         folder={folder}
         accept={accept}
-        className="hidden"
+        className='hidden'
       />
 
       <button
-        className={cn("upload-btn", styles.button)}
+        className={cn('upload-btn', styles.button)}
         onClick={(e) => {
           e.preventDefault();
 
@@ -151,23 +144,23 @@ const FileUpload = ({
         }}
       >
         <Image
-          src="/icons/upload.svg"
-          alt="upload-icon"
+          src='/icons/upload.svg'
+          alt='upload-icon'
           width={20}
           height={20}
-          className="object-contain"
+          className='object-contain'
         />
 
-        <p className={cn("text-base", styles.placeholder)}>{placeholder}</p>
+        <p className={cn('text-base', styles.placeholder)}>{placeholder}</p>
 
         {file && (
-          <p className={cn("upload-filename", styles.text)}>{file.filePath}</p>
+          <p className={cn('upload-filename', styles.text)}>{file.filePath}</p>
         )}
       </button>
 
       {progress > 0 && progress !== 100 && (
-        <div className="w-full rounded-full bg-green-200">
-          <div className="progress" style={{ width: `${progress}%` }}>
+        <div className='w-full rounded-full bg-green-200'>
+          <div className='progress' style={{ width: `${progress}%` }}>
             {progress}%
           </div>
         </div>
