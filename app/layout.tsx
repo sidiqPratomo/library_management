@@ -5,7 +5,7 @@ import localFont from 'next/font/local';
 import { ReactNode } from 'react';
 // import { Toaster } from "@/components/ui/toaster";
 import { Toaster } from "@/components/ui/sonner"
-import { ToastViewport, ToastProvider } from '@/components/ui/toast';
+// import { ToastViewport, ToastProvider } from '@/components/ui/toast';
 
 const ibmPlexSans = localFont({
   src: [

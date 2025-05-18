@@ -18,7 +18,9 @@ const authenticator = async () => {
     const response = await fetch(`${config.env.apiEndpoint}/api/auth/imagekit`);
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Request failed with status ${response.status}: ${errorText}`);
+      throw new Error(
+        `Request failed with status ${response.status}: ${errorText}`,
+      );
     }
 
     const data = await response.json();
@@ -29,28 +31,47 @@ const authenticator = async () => {
   }
 };
 
-const ImageUpload = ({ onFileChange }: { onFileChange: (filePath: string) => void }) => {
+const ImageUpload = ({
+  onFileChange,
+}: {
+  onFileChange: (filePath: string) => void;
+}) => {
   const ikUploadRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<{ filePath: string | null }>();
 
   const onError = (error: any) => {
     console.log(error);
 
-    toast.error('Image Upload failed',{
-        description: `Your image could not be uploaded. Please try again`,
-      });
+    toast.error('Image Upload failed', {
+      description: `Your image could not be uploaded. Please try again`,
+      position: 'top-right',
+      style: {
+        backgroundColor: '#FF4D4D', // Warna latar belakang merah muda
+        color: 'white', // Teks menjadi putih
+      },
+    });
   };
 
   const onSuccess = (res: any) => {
     setFile(res);
     onFileChange(res.filePath);
-    toast('Image Upload successfully',{
+    toast('Image Upload successfully', {
       description: `${res.filePath} uploaded successfully`,
+      position: 'top-right',
+      style: {
+        backgroundColor: '#28A745', // Warna latar belakang hijau
+        opacity:'0.9',
+        color: 'white', // Teks menjadi putih
+      },
     });
   };
 
   return (
-    <ImageKitProvider publicKey={publicKey} urlEndpoint={urlEndpoint} authenticator={authenticator}>
+    <ImageKitProvider
+      publicKey={publicKey}
+      urlEndpoint={urlEndpoint}
+      authenticator={authenticator}
+    >
       <IKUpload
         className='hidden'
         ref={ikUploadRef}
@@ -68,12 +89,25 @@ const ImageUpload = ({ onFileChange }: { onFileChange: (filePath: string) => voi
           }
         }}
       >
-        <Image src='/icons/upload.svg' alt='upload-icon' width={20} height={20} className='object-contain' />
+        <Image
+          src='/icons/upload.svg'
+          alt='upload-icon'
+          width={20}
+          height={20}
+          className='object-contain'
+        />
         <p className='text-base text-light-100'>Upload a File</p>
         {file && <p className='upload-filename'>{file.filePath}</p>}
       </button>
 
-      {file?.filePath && <IKImage alt={file.filePath} path={file.filePath} width={500} height={300} />}
+      {file?.filePath && (
+        <IKImage
+          alt={file.filePath}
+          path={file.filePath}
+          width={500}
+          height={300}
+        />
+      )}
     </ImageKitProvider>
   );
 };

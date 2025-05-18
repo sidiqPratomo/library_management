@@ -76,6 +76,7 @@ const FileUpload = ({
 
     toast.error(`${type} upload failed`, {
       description: `Your ${type} could not be uploaded. Please try again.`,
+      position:"top-right"
     });
   };
 
@@ -85,6 +86,7 @@ const FileUpload = ({
 
     toast.success(`${type} uploaded successfully`, {
       description: `${res.filePath} uploaded successfully!`,
+      position:"top-right"
     });
   };
 
@@ -93,6 +95,7 @@ const FileUpload = ({
       if (file.size > 20 * 1024 * 1024) {
         toast.warning('File size too large', {
           description: 'Please upload a file that is less than 20MB in size',
+          position:"top-right"
         });
 
         return false;
@@ -101,6 +104,7 @@ const FileUpload = ({
       if (file.size > 50 * 1024 * 1024) {
         toast('File size too large', {
           description: 'Please upload a file that is less than 50MB in size',
+          position:"top-right"
         });
         return false;
       }
