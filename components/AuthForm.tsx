@@ -56,12 +56,22 @@ const AuthForm = <T extends FieldValues>({
         description: isSignIn
           ? 'You have successfully signed in'
           : 'You have Successfully sign up',
+        position: 'top-right',
+        style: {
+          backgroundColor: '#28A745', // Warna latar belakang hijau
+          color: 'white', // Teks menjadi putih
+        },
       });
 
       router.push('/');
     } else {
       toast.error(`Error ${isSignIn ? 'signing in' : 'signing up'}`, {
         description: result.error ?? 'An error occured',
+        position: 'top-right',
+        style: {
+          backgroundColor: '#FF4D4D', // Warna latar belakang merah muda
+          color: 'white', // Teks menjadi putih
+        },
       });
     }
   };

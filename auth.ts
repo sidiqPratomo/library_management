@@ -29,7 +29,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           user[0].password,
         );
 
-        if (!isPasswordValid) return null;
+        if (!isPasswordValid) {
+          console.log('Invalid password');
+          return null;
+        }
 
         return {
           id: user[0].id.toString(),
