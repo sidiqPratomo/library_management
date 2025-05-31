@@ -34,7 +34,7 @@ export async function GET() {
 // ✅ Tangani preflight request (OPTIONS)
 export async function OPTIONS() {
   const res = new NextResponse(null, { status: 200 });
-  res.headers.set('Access-Control-Allow-Origin', '*');
+  res.headers.set('Access-Control-Allow-Origin', `${config.env.prodApiEndpoint}`);
   res.headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.headers.set('Access-Control-Allow-Headers', 'Content-Type');
   return res;
