@@ -14,9 +14,7 @@ const imagekit = new ImageKit({
   urlEndpoint: config.env.imagekit.urlEndpoint,
 });
 
-// export async function GET() {
-//     return NextResponse.json(imagekit.getAuthenticationParameters());
-// }
+console.log('[ImageKit API]', { publicKey, privateKey, urlEndpoint });
 
 export async function GET() {
   const authParams = imagekit.getAuthenticationParameters();
