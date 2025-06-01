@@ -3,7 +3,6 @@
 
 import { ImageKitProvider, IKUpload } from 'imagekitio-next';
 import config from '@/lib/config';
-// import ImageKit from "imagekit";
 import { useRef, useState } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -76,7 +75,11 @@ const FileUpload = ({
 
     toast.error(`${type} upload failed`, {
       description: `Your ${type} could not be uploaded. Please try again.`,
-      position:"top-right"
+      position: 'top-right',
+      style: {
+        backgroundColor: '#FF4D4D', // Warna latar belakang merah muda
+        color: 'white', // Teks menjadi putih
+      },
     });
   };
 
@@ -86,7 +89,11 @@ const FileUpload = ({
 
     toast.success(`${type} uploaded successfully`, {
       description: `${res.filePath} uploaded successfully!`,
-      position:"top-right"
+      position: 'top-right',
+      style: {
+        backgroundColor: '#28A745', // Warna latar belakang hijau
+        color: 'white', // Teks menjadi putih
+      },
     });
   };
 
@@ -95,7 +102,7 @@ const FileUpload = ({
       if (file.size > 20 * 1024 * 1024) {
         toast.warning('File size too large', {
           description: 'Please upload a file that is less than 20MB in size',
-          position:"top-right"
+          position: 'top-right',
         });
 
         return false;
@@ -104,7 +111,7 @@ const FileUpload = ({
       if (file.size > 50 * 1024 * 1024) {
         toast('File size too large', {
           description: 'Please upload a file that is less than 50MB in size',
-          position:"top-right"
+          position: 'top-right',
         });
         return false;
       }
