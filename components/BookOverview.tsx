@@ -7,8 +7,9 @@ import BookCover from "@/components/BookCover";
 import { eq } from "drizzle-orm";
 
 interface Props extends Book {
-//   userId: string;
+  userId: string;
 }
+
 const BookOverview = async ({
   title,
   author,
@@ -20,7 +21,7 @@ const BookOverview = async ({
   coverColor,
   coverUrl,
   id,
-//   userId,
+  userId,
 }: Props) => {
 //   const [user] = await db
 //     .select()

@@ -4,9 +4,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import BookCoverSvg from "@/components/BookCoverSvg";
 import { IKImage } from "imagekitio-next";
-// import BookCoverSvg from "./BookCoverSvg";
 import config from "@/lib/config";
-import Image from "next/image";
 
 type BookCoverVariant = "extraSmall" | "small" | "medium" | "regular" | "wide";
 
@@ -45,14 +43,14 @@ const BookCover = ({
         className="absolute z-10"
         style={{ left: "12%", width: "87.5%", height: "88%" }}
       >
-        <Image
-          src={coverImage}
-        //   urlEndpoint={config.env.imagekit.urlEndpoint}
+        <IKImage
+          path={coverImage}
+          urlEndpoint={config.env.imagekit.urlEndpoint}
           alt="Book cover"
           fill
           className="rounded-sm object-fill"
           loading="lazy"
-        //   lqip={{ active: true }}
+          lqip={{ active: true }}
         />
       </div>
     </div>
