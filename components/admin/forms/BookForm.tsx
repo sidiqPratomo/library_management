@@ -18,9 +18,9 @@ import { bookSchema } from "@/lib/validations";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/FileUpload";
-import { toast } from "@/hooks/use-toast";
 import ColorPicker from "../ColorPicker";
 import { createBook } from "@/lib/admin/actions/book";
+import { toast } from "sonner";
 
 interface Props extends Partial<Book> {
   type?: "create" | "update";
@@ -49,17 +49,24 @@ const BookForm = ({ type, ...book }: Props) => {
     const result = await createBook(values);
 
     if (result.success) {
-      toast({
-        title: "Success",
+      toast.success("Success",{
         description: "Book created successfully",
+        position: 'top-right',
+        style: {
+          backgroundColor: '#28A745', // Warna latar belakang hijau
+          color: 'white', // Teks menjadi putih
+        },
       });
 
       router.push(`/admin/books/${result.data.id}`);
     } else {
-      toast({
-        title: "Error",
-        description: result.message,
-        variant: "destructive",
+      toast.error("Error",{
+        description: result.message ?? 'An error occured',
+        position: 'top-right',
+        style: {
+          backgroundColor: '#FF4D4D', // Warna latar belakang merah muda
+          color: 'white', // Teks menjadi putih
+        },
       });
     }
   };
